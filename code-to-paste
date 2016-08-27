@@ -14,32 +14,32 @@
 /*  :
 ************************************************/
 
-var Beaver,
+var app,
+    beaver,
+    Beaver,
+    config,
     CreateButton,
     CreateFooter,
     CreateInstructions,
     CreateMenu,
     CreateText,
     CREDITS,
-    Enemy,
-    GRAPHICS,
-    Item,
-    TEXT_LABELS;
-
-var app,
-    beaver,
-    config,
+    disableMouse,
     enableBeaver,
+    Enemy,
     enemies,
     enemyVal,
-    disableMouse,
+    GRAPHICS,
     i,
     instructionStatus,
+    Item,
     items,
     screen1,
     screen2,
     screen3,
-    screen4;
+    screen4,
+    SOUNDS,
+    TEXT_LABELS;
     
 
 /*  :
@@ -121,11 +121,6 @@ config = {
         MD: 14,
         LG: 24,
         XL: 48
-    },
-    sounds: {
-        ATTACK: 'retro/hit2',
-        COLLECTITEM: 'rpg/metal-chime',
-        ENDLEVEL: 'retro/laser4'
     },
     levelMode: {
         lvl1: {
@@ -209,18 +204,14 @@ CREDITS = {
 };
 
 
+/*  :
+************************************************/
 
-
-
-
-
-
-
-
-
-
-
-
+SOUNDS = {
+    ATTACK: 'retro/hit2',
+    COLLECT_ITEM: 'rpg/metal-chime',
+    END_LEVEL: 'retro/laser4'
+};
 
 
 /*  :
@@ -281,7 +272,7 @@ Beaver.prototype.checkForItemGrab = function(item) {
          item.y = -400;
         this.items++;
         app.userProgress.scoreTotal++;
-        playSound(getSound(config.sounds.COLLECTITEM));
+        playSound(getSound(SOUNDS.COLLECT_ITEM));
     }
 };
 
@@ -296,7 +287,7 @@ Beaver.prototype.checkForAttack = function(item) {
          item.y <= (this.y + 40))) {
          item.y = -400;
         app.userProgress.scoreTotal--;
-        playSound(getSound(config.sounds.ATTACK));
+        playSound(getSound(SOUNDS.ATTACK));
     }
 };
 
@@ -442,6 +433,7 @@ CreateButton = function(o) {
         };
 
     // Rectangle Shape Object
+
     r = {
         width: width/2,
         height: height/2/2/2,
@@ -450,6 +442,7 @@ CreateButton = function(o) {
     };
 
     // Rectangle Text Object
+
     rTxt = {
         height: r.height/2/2,
         width: width/2,
@@ -751,7 +744,7 @@ var soundPlayed = false;
 
 screen3 = function() {
     if (!soundPlayed) {
-        playSound(getSound(config.sounds.ENDLEVEL));
+        playSound(getSound(SOUNDS.END_LEVEL));
         soundPlayed = true;
     }
 
@@ -837,7 +830,7 @@ screen4 = function() {
 
     speed = app.difficulty.NORMAL.scrollSpeed;
 
-    var bkg = [0, 0, 0], // change to ....
+    var bkg = [0, 0, 0],
         bkgHUD = config.colors.scheme.DARK,
         col = config.colors.scheme.WHITE,
         grass = {
@@ -900,7 +893,7 @@ screen4 = function() {
 
 var screen5 = function() {
     if (!soundPlayed) {
-        playSound(getSound(config.sounds.ENDLEVEL));
+        playSound(getSound(SOUNDS.END_LEVEL));
         soundPlayed = true;
     }
 
@@ -961,7 +954,7 @@ var creditsFormat = {
 
 var gameCompleteScreen = function() {
     if (!soundPlayed) {
-        playSound(getSound(config.sounds.ENDLEVEL));
+        playSound(getSound(SOUNDS.END_LEVEL));
         soundPlayed = true;
     }
 
@@ -994,6 +987,7 @@ var gameCompleteScreen = function() {
     image(getImage("creatures/Hopper-Happy"), 143, 290, 45, 45);
 
     // 
+
     if (app.levelCountdown > 0) {
         app.levelCountdown -= 0.03;
     } else {
@@ -1013,25 +1007,25 @@ var gap = 100;
 ************************************************/
 
 var creditsScreen = function() {
-
     if (creditsFormat.posY > -750) {
         creditsFormat.posY -= 1;
     } else {
         app.userProgress.screen = 1;
     }
 
+    // :
+
     background(0, 0, 0);
     fill(255, 0, 0);
     textSize(16);
-
     textAlign(CENTER);
     text(CREDITS.END_CREDIT_HEADING, 0, creditsFormat.posY, width, height);
-
     textAlign(CENTER);
     text(CREDITS.END_CREDIT_PROJECT, 0, creditsFormat.posY + creditsFormat.gapL, width, height);
-
     textAlign(CENTER);
     text(CREDITS.END_CREDIT_STARRING, 0, creditsFormat.posY + creditsFormat.gapL * 2, width, height);
+
+    // :
 
     for (var i = 3, j = 0 ; j < CREDITS.END_CREDITS.length; j += 1, i += 0.5) {
         textAlign(CENTER);
@@ -1067,6 +1061,7 @@ enableBeaver = function() {
     } else {
         beaver.fall();
     }
+
     beaver.draw();
 
     for (i = 0; i < items.length; i++) {
@@ -1109,7 +1104,7 @@ draw = function() {
     disableMouse();
     updateClock();
 
-    //
+    // :
 
     switch(app.userProgress.screen) {
         case 1:
