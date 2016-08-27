@@ -20,6 +20,7 @@ var Beaver,
     CreateInstructions,
     CreateMenu,
     CreateText,
+    CREDITS,
     Enemy,
     GRAPHICS,
     Item,
@@ -114,24 +115,6 @@ config = {
             YELLOW: [255, 210, 53]
         }
     },
-    credits: {
-        END_CREDIT_HEADING: 'Hoppy Beaver',
-        END_CREDIT_PROJECT: 'Project for Khan Academy',
-        END_CREDIT_STARRING: 'Starring Hoppy (as himself)',
-        END_CREDITS: [
-        ['Programming', 'John Martin'],
-        ['UI Design', 'John Martin'],
-        ['Water Boy', 'John Martin'],
-        ['Donut Getter', 'John Martin'],
-        ['Donut Eater', 'John Martin'],
-        ['Awesomness Consultant', 'John Martin'],
-        ['Graphic Design', 'Khan Academy'],
-        ['Sounds', 'artisticdude & spongejr'],
-        ['Programming', 'John Martin'],
-        ['Coffee Drinker', 'John Martin'],
-        ['Stunts', 'Hoppy (himself)'],
-        ['Cheesy Credits Maker', 'John Martin']]
-    },
     fontSz: {
         XS: 8,
         SM: 10,
@@ -200,6 +183,32 @@ TEXT_LABELS = {
     LEVEL_COMPLETE: 'Level Complete!',
     GAME_COMPLETE: 'GAME COMPLETE'
 };
+
+
+/*  :
+************************************************/
+
+CREDITS = {
+    END_CREDIT_HEADING: 'Hoppy Beaver',
+    END_CREDIT_PROJECT: 'Project for Khan Academy',
+    END_CREDIT_STARRING: 'Starring Hoppy (as himself)',
+    END_CREDITS: [
+        ['Programming', 'John Martin'],
+        ['UI Design', 'John Martin'],
+        ['Water Boy', 'John Martin'],
+        ['Donut Getter', 'John Martin'],
+        ['Donut Eater', 'John Martin'],
+        ['Awesomness Consultant', 'John Martin'],
+        ['Graphic Design', 'Khan Academy'],
+        ['Sounds', 'artisticdude & spongejr'],
+        ['Programming', 'John Martin'],
+        ['Coffee Drinker', 'John Martin'],
+        ['Stunts', 'Hoppy (himself)'],
+        ['Cheesy Credits Maker', 'John Martin']
+    ]
+};
+
+
 
 
 
@@ -1016,18 +1025,18 @@ var creditsScreen = function() {
     textSize(16);
 
     textAlign(CENTER);
-    text(config.credits.END_CREDIT_HEADING, 0, creditsFormat.posY, width, height);
+    text(CREDITS.END_CREDIT_HEADING, 0, creditsFormat.posY, width, height);
 
     textAlign(CENTER);
-    text(config.credits.END_CREDIT_PROJECT, 0, creditsFormat.posY + creditsFormat.gapL, width, height);
+    text(CREDITS.END_CREDIT_PROJECT, 0, creditsFormat.posY + creditsFormat.gapL, width, height);
 
     textAlign(CENTER);
-    text(config.credits.END_CREDIT_STARRING, 0, creditsFormat.posY + creditsFormat.gapL * 2, width, height);
+    text(CREDITS.END_CREDIT_STARRING, 0, creditsFormat.posY + creditsFormat.gapL * 2, width, height);
 
-    for (var i = 3, j = 0 ; j < config.credits.END_CREDITS.length; j += 1, i += 0.5) {
+    for (var i = 3, j = 0 ; j < CREDITS.END_CREDITS.length; j += 1, i += 0.5) {
         textAlign(CENTER);
-        text(config.credits.END_CREDITS[j][0] + '   -   ' +
-             config.credits.END_CREDITS[j][1], 0,
+        text(CREDITS.END_CREDITS[j][0] + '   -   ' +
+             CREDITS.END_CREDITS[j][1], 0,
              creditsFormat.posY + creditsFormat.gapM * i, width, height);
     }
 };
