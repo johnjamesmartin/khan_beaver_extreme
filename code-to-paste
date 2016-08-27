@@ -106,13 +106,6 @@ config = {
             }
         }
     },
-    FONT_SIZE: {
-        XS: 8,
-        SM: 10,
-        MD: 14,
-        LG: 24,
-        XL: 48
-    },
     levelMode: {
         lvl1: {
             difficulty: 'easy',
@@ -215,7 +208,14 @@ UI_STYLES = {
         RED: [215, 70, 70],
         WHITE: [255, 255, 255],
         YELLOW: [255, 210, 53]
-    }
+    },
+    FONT_SIZE: {
+        XS: 8,
+        SM: 10,
+        MD: 14,
+        LG: 24,
+        XL: 48
+    },
 };
 
 
@@ -531,7 +531,7 @@ CreateInstructions = function(o) {
     fill(UI_STYLES.COLOURS.RED[0],
          UI_STYLES.COLOURS.RED[1],
          UI_STYLES.COLOURS.RED[2]);
-    textSize(config.FONT_SIZE.XL + 10);
+    textSize(UI_STYLES.FONT_SIZE.XL + 10);
     text(TEXT_LABELS.LEVEL +
     (level),
     0, 100, width, 100);
@@ -540,7 +540,7 @@ CreateInstructions = function(o) {
          UI_STYLES.COLOURS.WHITE[1],
          UI_STYLES.COLOURS.WHITE[2]);
 
-    textSize(config.FONT_SIZE.LG - 9);
+    textSize(UI_STYLES.FONT_SIZE.LG - 9);
     text(o.instructions.a + '\n\n' +
          o.instructions.b,
     width/2/2, 160, width/2, height);
@@ -548,7 +548,7 @@ CreateInstructions = function(o) {
     fill(UI_STYLES.COLOURS.YELLOW[0],
          UI_STYLES.COLOURS.YELLOW[1],
          UI_STYLES.COLOURS.YELLOW[2]);
-    textSize(config.FONT_SIZE.MD + 3);
+    textSize(UI_STYLES.FONT_SIZE.MD + 3);
     text(TEXT_LABELS.LEVEL_BEGIN +
          Math.floor(app.levelCountdown) + '...',
     width/2/2, 340, width - 70, height);
@@ -596,17 +596,17 @@ screen1 = function() {
     titleScreen = CreateMenu({
         backgroundColor: UI_STYLES.COLOURS.DARK,
         color: UI_STYLES.COLOURS.WHITE,
-        fontSize: config.FONT_SIZE.XL + 10,
+        fontSize: UI_STYLES.FONT_SIZE.XL + 10,
         img: true,
         text: [{
             values: CreateText(CENTER,
                     TEXT_LABELS.HEADING,
-                    config.FONT_SIZE.LG - 5, 200,
+                    UI_STYLES.FONT_SIZE.LG - 5, 200,
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
                     TEXT_LABELS.SUB_HEADING,
-                    config.FONT_SIZE.XL, 200, width, 0, 180)
+                    UI_STYLES.FONT_SIZE.XL, 200, width, 0, 180)
             }]
     });
 
@@ -619,13 +619,13 @@ screen1 = function() {
             UI_STYLES.COLOURS.YELLOW[0],
             UI_STYLES.COLOURS.YELLOW[1],
             UI_STYLES.COLOURS.YELLOW[2]],
-        fontSize: config.FONT_SIZE.LG,
+        fontSize: UI_STYLES.FONT_SIZE.LG,
         text: TEXT_LABELS.GAME_BEGIN
     });
 
     titleFooter = CreateText(CENTER,
                     TEXT_LABELS.FOOTER,
-                    config.FONT_SIZE.XS,
+                    UI_STYLES.FONT_SIZE.XS,
                     height - 25, width/2, 0, 180);
 
     titleScreenFooter = CreateFooter(titleFooter);
@@ -695,7 +695,7 @@ screen2 = function() {
     fill(gfx.bkgHud[0], gfx.bkgHud[1], gfx.bkgHud[2]);
     rect(0, 0, width, 30);
     fill(gfx.col[0], gfx.col[1], gfx.col[2]);
-    textSize(config.FONT_SIZE.MD);
+    textSize(UI_STYLES.FONT_SIZE.MD);
 
     text(TEXT_LABELS.HUD.SCORE +
          app.userProgress.scoreTotal,
@@ -776,18 +776,18 @@ screen3 = function() {
     titleScreen = CreateMenu({
         backgroundColor: UI_STYLES.COLOURS.DARK,
         color: UI_STYLES.COLOURS.WHITE,
-        fontSize: config.FONT_SIZE.XL,
+        fontSize: UI_STYLES.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
                     TEXT_LABELS.LEVEL_COMPLETE,
-                    config.FONT_SIZE.LG - 5, 50,
+                    UI_STYLES.FONT_SIZE.LG - 5, 50,
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
                     'You got ' +
                     app.userProgress.scoreTotal +
                     ' points in Y seconds!',
-                    config.FONT_SIZE.SM,
+                    UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
     });
@@ -801,7 +801,7 @@ screen3 = function() {
             UI_STYLES.COLOURS.YELLOW[0],
             UI_STYLES.COLOURS.YELLOW[1],
             UI_STYLES.COLOURS.YELLOW[2]],
-        fontSize: config.FONT_SIZE.LG,
+        fontSize: UI_STYLES.FONT_SIZE.LG,
         text: TEXT_LABELS.LEVEL_NEXT
     });
 };
@@ -861,7 +861,7 @@ screen4 = function() {
     fill(bkgHUD[0], bkgHUD[1], bkgHUD[2]);
     rect(0, 0, width, 30);
     fill(col[0], col[1], col[2]);
-    textSize(config.FONT_SIZE.MD);
+    textSize(UI_STYLES.FONT_SIZE.MD);
     text(TEXT_LABELS.HUD.SCORE +
          app.userProgress.scoreTotal,
          10, 10, 100, 200);
@@ -925,18 +925,18 @@ var screen5 = function() {
     titleScreen = CreateMenu({
         backgroundColor: UI_STYLES.COLOURS.DARK,
         color: UI_STYLES.COLOURS.WHITE,
-        fontSize: config.FONT_SIZE.XL,
+        fontSize: UI_STYLES.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
                     TEXT_LABELS.LEVEL_COMPLETE,
-                    config.FONT_SIZE.LG - 5, 50,
+                    UI_STYLES.FONT_SIZE.LG - 5, 50,
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
                     'You got ' +
                     app.userProgress.scoreTotal +
                     ' points in Y seconds!',
-                    config.FONT_SIZE.SM,
+                    UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
     });
@@ -950,7 +950,7 @@ var screen5 = function() {
             UI_STYLES.COLOURS.YELLOW[0],
             UI_STYLES.COLOURS.YELLOW[1],
             UI_STYLES.COLOURS.YELLOW[2]],
-        fontSize: config.FONT_SIZE.LG,
+        fontSize: UI_STYLES.FONT_SIZE.LG,
         text: TEXT_LABELS.FINISH
     });
 };
@@ -986,11 +986,11 @@ var gameCompleteScreen = function() {
     titleScreen = CreateMenu({
         backgroundColor: UI_STYLES.COLOURS.DARK,
         color: UI_STYLES.COLOURS.WHITE,
-        fontSize: config.FONT_SIZE.XL,
+        fontSize: UI_STYLES.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
                     TEXT_LABELS.GAME_COMPLETE,
-                    config.FONT_SIZE.LG - 5, 50,
+                    UI_STYLES.FONT_SIZE.LG - 5, 50,
                     width, 0, 125)
             }]
     });
