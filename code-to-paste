@@ -21,6 +21,7 @@ var Beaver,
     CreateMenu,
     CreateText,
     Enemy,
+    GRAPHICS,
     Item;
 
 var app,
@@ -149,29 +150,6 @@ config = {
         LG: 24,
         XL: 48
     },
-    gfx: {
-        char: {
-            HAPPY: 'creatures/Hopper-Happy',
-            JUMPING: 'creatures/Hopper-Jumping'
-        },
-        level: {
-            grass: {
-                UPPER: 'cute/GrassBlock',
-                LOWER: 'cute/DirtBlock'
-            },
-            trees: {
-                TALL: 'cute/TreeTall',
-                UGLY: 'cute/TreeUgly',
-                SHORT: 'cute/TreeShort'
-            },
-            stone: {
-                RAMP_NORTH: 'cute/RampNorth'
-            }
-        },
-        enemy: {
-            FLYING: 'avatars/piceratops-sapling'
-        }
-    },
     hud: {
         SCORE: 'Score: '
     },
@@ -193,6 +171,43 @@ config = {
 /*  :
 ************************************************/
 
+GRAPHICS = {
+    CHARACTER_SPRITE: {
+        HAPPY: 'creatures/Hopper-Happy',
+        JUMPING: 'creatures/Hopper-Jumping'
+    },
+    LEVEL: {
+        GRASS: {
+            UPPER: 'cute/GrassBlock',
+            LOWER: 'cute/DirtBlock'
+        },
+        TREES: {
+            TALL: 'cute/TreeTall',
+            UGLY: 'cute/TreeUgly',
+            SHORT: 'cute/TreeShort'
+        },
+        STONE: {
+            RAMP_NORTH: 'cute/RampNorth'
+        }
+    },
+    ENEMY: {
+        FLYING: 'avatars/piceratops-sapling'
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+/*  :
+************************************************/
+
 var scrollX = 0;
 var speed = 2;
 var level = 0;
@@ -202,7 +217,7 @@ var level = 0;
 ************************************************/
 
 Beaver = function(x, y) {
-    this.img = getImage(config.gfx.char.HAPPY);
+    this.img = getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY);
     this.items = 0;
     this.x = x;
     this.y = y;
@@ -223,7 +238,7 @@ Beaver.prototype.draw = function() {
 ************************************************/
 
 Beaver.prototype.hop = function() {
-    this.img = getImage(config.gfx.char.JUMPING);
+    this.img = getImage(GRAPHICS.CHARACTER_SPRITE.JUMPING);
     this.y -= 5;
 };
 
@@ -232,7 +247,7 @@ Beaver.prototype.hop = function() {
 ************************************************/
 
 Beaver.prototype.fall = function() {
-    this.img = getImage(config.gfx.char.HAPPY);
+    this.img = getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY);
     this.y += 5;
 };
 
@@ -280,7 +295,7 @@ beaver = new Beaver(120, 300);
 Item = function(x, y) {
     this.x = x;
     this.y = y;
-    this.img = getImage(config.gfx.char.HAPPY);
+    this.img = getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY);
 };
 
 
@@ -298,7 +313,7 @@ Item.prototype.draw = function() {
 Enemy = function(x, y) {
     this.x = x;
     this.y = y;
-    this.img = getImage(config.gfx.enemy.FLYING);
+    this.img = getImage(GRAPHICS.ENEMY.FLYING);
 };
 
 
@@ -359,7 +374,7 @@ CreateMenu = function(o) {
 
     fill(col[0], col[1], col[2]);
 
-    if (o.img) { image(getImage(config.gfx.char.JUMPING), 249, 169, 100, 100); }
+    if (o.img) { image(getImage(GRAPHICS.CHARACTER_SPRITE.JUMPING), 249, 169, 100, 100); }
 
     for (i = 0; i < o.text.length; i++) {
         text(o.text[i].values.title.content,
@@ -677,21 +692,21 @@ screen2 = function() {
     };
 
     var treeTall = scroller({
-        img: config.gfx.level.trees.TALL,
+        img: GRAPHICS.LEVEL.TREES.TALL,
         heightDeviation: 64,
         slowness: 7,
         spacing: 1.3
     });
 
     var treeUgly = scroller({
-        img: config.gfx.level.trees.UGLY,
+        img: GRAPHICS.LEVEL.TREES.UGLY,
         heightDeviation: 50,
         slowness: 5,
         spacing: 2.9
     });
 
     var treeUgly = scroller({
-        img: config.gfx.level.trees.SHORT,
+        img: GRAPHICS.LEVEL.TREES.SHORT,
         heightDeviation: 60,
         slowness: 3,
         spacing: 20
@@ -699,9 +714,9 @@ screen2 = function() {
 
     for (i = scrollX; i < width;
          i += grass.width) {
-        image(getImage(config.gfx.level.grass.UPPER),
+        image(getImage(GRAPHICS.LEVEL.GRASS.UPPER),
         i, grass.y - 20, grass.width, grass.height);
-        image(getImage(config.gfx.level.grass.LOWER),
+        image(getImage(GRAPHICS.LEVEL.GRASS.LOWER),
         i, grass.y, grass.width, grass.height);
     }
 };
@@ -839,7 +854,7 @@ screen4 = function() {
     };
 
     var rampNorth = scroller({
-        img: config.gfx.level.stone.RAMP_NORTH,
+        img: GRAPHICS.LEVEL.STONE.RAMP_NORTH,
         heightDeviation: 64,
         slowness: 14,
         spacing: 2
@@ -954,8 +969,8 @@ var gameCompleteScreen = function() {
     text('CONGRATULATIONS', width/width/2, 100, width, 100);
 
     image(getImage("creatures/Hopper-Cool"), 155, 200, 100, 100);
-    image(getImage(config.gfx.char.HAPPY), 101, 268, 35, 35);
-    image(getImage(config.gfx.char.HAPPY), 145, 267, 25, 25);
+    image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 101, 268, 35, 35);
+    image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 145, 267, 25, 25);
     image(getImage("creatures/Hopper-Happy"), 261, 262, 35, 35);
     image(getImage("creatures/Hopper-Happy"), 228, 284, 40, 40);
     image(getImage("creatures/Hopper-Happy"), 143, 290, 45, 45);
