@@ -22,7 +22,8 @@ var Beaver,
     CreateText,
     Enemy,
     GRAPHICS,
-    Item;
+    Item,
+    TEXT_LABELS;
 
 var app,
     beaver,
@@ -97,18 +98,6 @@ instructionStatus = {
 
 config = {
     txt: {
-        main: {
-            TXT_HEADING: 'Hoppy Beaver',
-            TXT_SHEADING: '[Extreme]',
-            TXT_FOOTER: 'Game by John for Khan Academy',
-            TXT_FINISH: 'Finish',
-            TXT_GAMEBEGIN: 'Begin >',
-            TXT_LEVEL: 'Level ',
-            TXT_LEVELBEGIN: 'Level beginning in ',
-            TXT_NEXTLEVEL: 'Next Level',
-            TXT_COMPLETE: 'Level Complete!',
-            TXT_GAMECOMPLETE: 'GAME COMPLETE'
-        },
         instructions: {
             lvl_1: {
                 TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
@@ -194,6 +183,26 @@ GRAPHICS = {
         FLYING: 'avatars/piceratops-sapling'
     }
 };
+
+
+/*  :
+************************************************/
+
+TEXT_LABELS = {
+    HEADING: 'Hoppy Beaver',
+    SUB_HEADING: '[Extreme]',
+    FOOTER: 'Game by John for Khan Academy',
+    FINISH: 'Finish',
+    GAME_BEGIN: 'Begin >',
+    LEVEL: 'Level',
+    LEVEL_BEGIN: 'Level beginning in ',
+    LEVEL_NEXT: 'Next Level',
+    LEVEL_COMPLETE: 'Level Complete!',
+    GAME_COMPLETE: 'GAME COMPLETE'
+};
+
+
+
 
 
 
@@ -503,7 +512,7 @@ CreateInstructions = function(o) {
          config.colors.scheme.RED[1],
          config.colors.scheme.RED[2]);
     textSize(config.fontSz.XL + 10);
-    text(config.txt.main.TXT_LEVEL +
+    text(TEXT_LABELS.LEVEL +
     (level),
     0, 100, width, 100);
 
@@ -520,7 +529,7 @@ CreateInstructions = function(o) {
          config.colors.scheme.YELLOW[1],
          config.colors.scheme.YELLOW[2]);
     textSize(config.fontSz.MD + 3);
-    text(config.txt.main.TXT_LEVELBEGIN +
+    text(TEXT_LABELS.LEVEL_BEGIN +
          Math.floor(app.levelCountdown) + '...',
     width/2/2, 340, width - 70, height);
 };
@@ -571,12 +580,12 @@ screen1 = function() {
         img: true,
         text: [{
             values: CreateText(CENTER,
-                    config.txt.main.TXT_HEADING,
+                    TEXT_LABELS.HEADING,
                     config.fontSz.LG - 5, 200,
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
-                    config.txt.main.TXT_SHEADING,
+                    TEXT_LABELS.SUB_HEADING,
                     config.fontSz.XL, 200, width, 0, 180)
             }]
     });
@@ -591,11 +600,11 @@ screen1 = function() {
             config.colors.scheme.YELLOW[1],
             config.colors.scheme.YELLOW[2]],
         fontSize: config.fontSz.LG,
-        text: config.txt.main.TXT_GAMEBEGIN
+        text: TEXT_LABELS.GAME_BEGIN
     });
 
     titleFooter = CreateText(CENTER,
-                    config.txt.main.TXT_FOOTER,
+                    TEXT_LABELS.FOOTER,
                     config.fontSz.XS,
                     height - 25, width/2, 0, 180);
 
@@ -750,7 +759,7 @@ screen3 = function() {
         fontSize: config.fontSz.XL,
         text: [{
             values: CreateText(CENTER,
-                    config.txt.main.TXT_COMPLETE,
+                    TEXT_LABELS.LEVEL_COMPLETE,
                     config.fontSz.LG - 5, 50,
                     width, 0, 125)
             }, {
@@ -773,7 +782,7 @@ screen3 = function() {
             config.colors.scheme.YELLOW[1],
             config.colors.scheme.YELLOW[2]],
         fontSize: config.fontSz.LG,
-        text: config.txt.main.TXT_NEXTLEVEL
+        text: TEXT_LABELS.LEVEL_NEXT
     });
 };
 
@@ -899,7 +908,7 @@ var screen5 = function() {
         fontSize: config.fontSz.XL,
         text: [{
             values: CreateText(CENTER,
-                    config.txt.main.TXT_COMPLETE,
+                    TEXT_LABELS.LEVEL_COMPLETE,
                     config.fontSz.LG - 5, 50,
                     width, 0, 125)
             }, {
@@ -922,7 +931,7 @@ var screen5 = function() {
             config.colors.scheme.YELLOW[1],
             config.colors.scheme.YELLOW[2]],
         fontSize: config.fontSz.LG,
-        text: config.txt.main.TXT_FINISH
+        text: TEXT_LABELS.FINISH
     });
 };
 
@@ -960,7 +969,7 @@ var gameCompleteScreen = function() {
         fontSize: config.fontSz.XL,
         text: [{
             values: CreateText(CENTER,
-                    config.txt.main.TXT_GAMECOMPLETE,
+                    TEXT_LABELS.GAME_COMPLETE,
                     config.fontSz.LG - 5, 50,
                     width, 0, 125)
             }]
