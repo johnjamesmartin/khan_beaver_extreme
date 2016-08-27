@@ -11,7 +11,7 @@
 ************************************************/
 
 
-/*  :
+/*  Global variables:
 ************************************************/
 
 var app,
@@ -39,7 +39,8 @@ var app,
     screen3,
     screen4,
     SOUNDS,
-    TEXT_LABELS;
+    TEXT_LABELS,
+    UI_STYLES;
     
 
 /*  :
@@ -79,8 +80,7 @@ app = {
 /*  :
 ************************************************/
 
-items = [];
-enemies = [];
+items = []; enemies = [];
 
 
 /*  :
@@ -104,15 +104,6 @@ config = {
                 TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
                 TXT_I1B: 'Watch for the Piceratopses!'
             }
-        }
-    },
-    colors: {
-        scheme: {
-            CYAN: [41, 204, 217],
-            DARK: [0, 0, 85],
-            RED: [215, 70, 70],
-            WHITE: [255, 255, 255],
-            YELLOW: [255, 210, 53]
         }
     },
     FONT_SIZE: {
@@ -212,6 +203,33 @@ SOUNDS = {
     COLLECT_ITEM: 'rpg/metal-chime',
     END_LEVEL: 'retro/laser4'
 };
+
+
+/*  :
+************************************************/
+
+UI_STYLES = {
+    COLOURS: {
+        CYAN: [41, 204, 217],
+        DARK: [0, 0, 85],
+        RED: [215, 70, 70],
+        WHITE: [255, 255, 255],
+        YELLOW: [255, 210, 53]
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*  :
@@ -481,10 +499,10 @@ CreateButton = function(o) {
 
         setButtonState({
         txtCol: [col[0], col[1], col[2]],
-        bkgCol: [config.colors.scheme.RED[0] +
+        bkgCol: [UI_STYLES.COLOURS.RED[0] +
                  tone.highlight,
-                 config.colors.scheme.RED[1],
-                 config.colors.scheme.RED[2]]
+                 UI_STYLES.COLOURS.RED[1],
+                 UI_STYLES.COLOURS.RED[2]]
         });
         mouseReleased = function() {
             app.userProgress.screen++;
@@ -507,29 +525,29 @@ CreateFooter = function(o) {
 ************************************************/
 
 CreateInstructions = function(o) {
-    background(config.colors.scheme.DARK[0],
-               config.colors.scheme.DARK[1],
-               config.colors.scheme.DARK[2]);
-    fill(config.colors.scheme.RED[0],
-         config.colors.scheme.RED[1],
-         config.colors.scheme.RED[2]);
+    background(UI_STYLES.COLOURS.DARK[0],
+               UI_STYLES.COLOURS.DARK[1],
+               UI_STYLES.COLOURS.DARK[2]);
+    fill(UI_STYLES.COLOURS.RED[0],
+         UI_STYLES.COLOURS.RED[1],
+         UI_STYLES.COLOURS.RED[2]);
     textSize(config.FONT_SIZE.XL + 10);
     text(TEXT_LABELS.LEVEL +
     (level),
     0, 100, width, 100);
 
-    fill(config.colors.scheme.WHITE[0],
-         config.colors.scheme.WHITE[1],
-         config.colors.scheme.WHITE[2]);
+    fill(UI_STYLES.COLOURS.WHITE[0],
+         UI_STYLES.COLOURS.WHITE[1],
+         UI_STYLES.COLOURS.WHITE[2]);
 
     textSize(config.FONT_SIZE.LG - 9);
     text(o.instructions.a + '\n\n' +
          o.instructions.b,
     width/2/2, 160, width/2, height);
 
-    fill(config.colors.scheme.YELLOW[0],
-         config.colors.scheme.YELLOW[1],
-         config.colors.scheme.YELLOW[2]);
+    fill(UI_STYLES.COLOURS.YELLOW[0],
+         UI_STYLES.COLOURS.YELLOW[1],
+         UI_STYLES.COLOURS.YELLOW[2]);
     textSize(config.FONT_SIZE.MD + 3);
     text(TEXT_LABELS.LEVEL_BEGIN +
          Math.floor(app.levelCountdown) + '...',
@@ -576,8 +594,8 @@ screen1 = function() {
     noStroke();
 
     titleScreen = CreateMenu({
-        backgroundColor: config.colors.scheme.DARK,
-        color: config.colors.scheme.WHITE,
+        backgroundColor: UI_STYLES.COLOURS.DARK,
+        color: UI_STYLES.COLOURS.WHITE,
         fontSize: config.FONT_SIZE.XL + 10,
         img: true,
         text: [{
@@ -594,13 +612,13 @@ screen1 = function() {
 
     titleScreenBtn = CreateButton({
         backgroundColor: [
-            config.colors.scheme.RED[0],
-            config.colors.scheme.RED[1],
-            config.colors.scheme.RED[2]],
+            UI_STYLES.COLOURS.RED[0],
+            UI_STYLES.COLOURS.RED[1],
+            UI_STYLES.COLOURS.RED[2]],
         color: [
-            config.colors.scheme.YELLOW[0],
-            config.colors.scheme.YELLOW[1],
-            config.colors.scheme.YELLOW[2]],
+            UI_STYLES.COLOURS.YELLOW[0],
+            UI_STYLES.COLOURS.YELLOW[1],
+            UI_STYLES.COLOURS.YELLOW[2]],
         fontSize: config.FONT_SIZE.LG,
         text: TEXT_LABELS.GAME_BEGIN
     });
@@ -662,9 +680,9 @@ screen2 = function() {
     });
 
     var gfx = {
-        bkg: config.colors.scheme.CYAN,
-        bkgHud: config.colors.scheme.DARK,
-        col: config.colors.scheme.WHITE
+        bkg: UI_STYLES.COLOURS.CYAN,
+        bkgHud: UI_STYLES.COLOURS.DARK,
+        col: UI_STYLES.COLOURS.WHITE
     };
 
     var grass = {
@@ -756,8 +774,8 @@ screen3 = function() {
     noStroke();
 
     titleScreen = CreateMenu({
-        backgroundColor: config.colors.scheme.DARK,
-        color: config.colors.scheme.WHITE,
+        backgroundColor: UI_STYLES.COLOURS.DARK,
+        color: UI_STYLES.COLOURS.WHITE,
         fontSize: config.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
@@ -776,13 +794,13 @@ screen3 = function() {
 
     titleScreenBtn = CreateButton({
         backgroundColor: [
-            config.colors.scheme.RED[0],
-            config.colors.scheme.RED[1],
-            config.colors.scheme.RED[2]],
+            UI_STYLES.COLOURS.RED[0],
+            UI_STYLES.COLOURS.RED[1],
+            UI_STYLES.COLOURS.RED[2]],
         color: [
-            config.colors.scheme.YELLOW[0],
-            config.colors.scheme.YELLOW[1],
-            config.colors.scheme.YELLOW[2]],
+            UI_STYLES.COLOURS.YELLOW[0],
+            UI_STYLES.COLOURS.YELLOW[1],
+            UI_STYLES.COLOURS.YELLOW[2]],
         fontSize: config.FONT_SIZE.LG,
         text: TEXT_LABELS.LEVEL_NEXT
     });
@@ -831,8 +849,8 @@ screen4 = function() {
     speed = app.difficulty.NORMAL.scrollSpeed;
 
     var bkg = [0, 0, 0],
-        bkgHUD = config.colors.scheme.DARK,
-        col = config.colors.scheme.WHITE,
+        bkgHUD = UI_STYLES.COLOURS.DARK,
+        col = UI_STYLES.COLOURS.WHITE,
         grass = {
         height: 70,
         width: 40,
@@ -905,8 +923,8 @@ var screen5 = function() {
     noStroke();
 
     titleScreen = CreateMenu({
-        backgroundColor: config.colors.scheme.DARK,
-        color: config.colors.scheme.WHITE,
+        backgroundColor: UI_STYLES.COLOURS.DARK,
+        color: UI_STYLES.COLOURS.WHITE,
         fontSize: config.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
@@ -925,13 +943,13 @@ var screen5 = function() {
 
     titleScreenBtn = CreateButton({
         backgroundColor: [
-            config.colors.scheme.RED[0],
-            config.colors.scheme.RED[1],
-            config.colors.scheme.RED[2]],
+            UI_STYLES.COLOURS.RED[0],
+            UI_STYLES.COLOURS.RED[1],
+            UI_STYLES.COLOURS.RED[2]],
         color: [
-            config.colors.scheme.YELLOW[0],
-            config.colors.scheme.YELLOW[1],
-            config.colors.scheme.YELLOW[2]],
+            UI_STYLES.COLOURS.YELLOW[0],
+            UI_STYLES.COLOURS.YELLOW[1],
+            UI_STYLES.COLOURS.YELLOW[2]],
         fontSize: config.FONT_SIZE.LG,
         text: TEXT_LABELS.FINISH
     });
@@ -966,8 +984,8 @@ var gameCompleteScreen = function() {
     noStroke();
 
     titleScreen = CreateMenu({
-        backgroundColor: config.colors.scheme.DARK,
-        color: config.colors.scheme.WHITE,
+        backgroundColor: UI_STYLES.COLOURS.DARK,
+        color: UI_STYLES.COLOURS.WHITE,
         fontSize: config.FONT_SIZE.XL,
         text: [{
             values: CreateText(CENTER,
