@@ -1,0 +1,1052 @@
+// Spin-off of "Project: Hoppy Beaver Extreme" by John
+
+/*  Changes made to original:
+************************************************
+
+  (1) 
+
+  (2)
+
+  (3)
+************************************************/
+
+
+
+
+
+
+
+
+
+
+
+ /*-------------------
+  1. Section 1
+ ---------------------
+
+ Global Variables
+ - - - - - - - - - - - - - - - -
+(a) Constructor Variables
+   Here we define variables that
+   form constructor functions in
+   our game. The capitalisation
+   is a JavaScript best practice.
+   - - - - - - - - - - - - - - - -
+*/
+
+var Beaver,
+    CreateButton,
+    CreateFooter,
+    CreateInstructions,
+    CreateMenu,
+    CreateText,
+    Enemy,
+    Item;
+
+/* - - - - - - - - - - - - - - -
+(b) Standard variables
+   Here we define all other
+   variables that will be used
+   through the game.
+   - - - - - - - - - - -  - - - */
+var app,
+    beaver,
+    config,
+    enableBeaver,
+    enemies,
+    enemyVal,
+    disableMouse,
+    i,
+    instructionStatus,
+    items,
+    screen1,
+    screen2,
+    screen3,
+    screen4;
+    
+/* - - - - - - - - - - - - -
+(c) 
+   - - - - - - - - - - - - - - - - */
+   
+app = {
+    mode: 'easy',
+    difficulty: {
+        EASY: {
+            scoreNeeded: 10,
+            scrollSpeed: 2
+        },
+        NORMAL: {
+            scoreNeeded: 10,
+            scrollSpeed: 4
+        },
+        HARD: {
+            scoreNeeded: 30,
+            scrollSpeed: 4
+        }
+    },
+    timeVal: {
+        h: 0,
+        m: 0,
+        s: 0
+    },
+    userProgress: {
+        screen: 6,
+        scoreTotal: 0,
+        difficulty: 'easy'
+    },
+    levelCountdown: 10,
+    COUNTDOWNVAL: 10
+};
+
+
+/* - - - - - - - - - - - - -
+(d) Arrays
+   .
+   - - - - - - - - - - - - - - - - */
+
+items = [];
+enemies = [];
+
+instructionStatus = {
+    screen1: false,
+    screen2: false,
+    screen3: false,
+    screen4: false
+};
+
+
+/*-------------------
+  2. Section 2
+ ---------------------
+
+ Configuration Files
+ - - - - - - - - - - - - -
+(a) Config object
+   Here we keep many important values
+   of our game in a single central
+   location for easy customisation.
+   - - - - - - - - - - - - - - - -
+*/
+
+config = {
+    txt: {
+        main: {
+            TXT_HEADING: 'Hoppy Beaver',
+            TXT_SHEADING: '[Extreme]',
+            TXT_FOOTER: 'Game by John for Khan Academy',
+            TXT_FINISH: 'Finish',
+            TXT_GAMEBEGIN: 'Begin >',
+            TXT_LEVEL: 'Level ',
+            TXT_LEVELBEGIN: 'Level beginning in ',
+            TXT_NEXTLEVEL: 'Next Level',
+            TXT_COMPLETE: 'Level Complete!',
+            TXT_GAMECOMPLETE: 'GAME COMPLETE'
+        },
+        instructions: {
+            lvl_1: {
+                TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
+                TXT_I1B: 'Watch for the Piceratopses!'
+            }
+        }
+    },
+    colors: {
+        scheme: {
+            CYAN: [41, 204, 217],
+            DARK: [0, 0, 85],
+            RED: [215, 70, 70],
+            WHITE: [255, 255, 255],
+            YELLOW: [255, 210, 53]
+        }
+    },
+    credits: {
+        END_CREDIT_HEADING: 'Hoppy Beaver',
+        END_CREDIT_PROJECT: 'Project for Khan Academy',
+        END_CREDIT_STARRING: 'Starring Hoppy (as himself)',
+        END_CREDITS: [
+        ['Programming', 'John Martin'],
+        ['UI Design', 'John Martin'],
+        ['Water Boy', 'John Martin'],
+        ['Donut Getter', 'John Martin'],
+        ['Donut Eater', 'John Martin'],
+        ['Awesomness Consultant', 'John Martin'],
+        ['Graphic Design', 'Khan Academy'],
+        ['Sounds', 'artisticdude & spongejr'],
+        ['Programming', 'John Martin'],
+        ['Coffee Drinker', 'John Martin'],
+        ['Stunts', 'Hoppy (himself)'],
+        ['Cheesy Credits Maker', 'John Martin']]
+    },
+    fontSz: {
+        XS: 8,
+        SM: 10,
+        MD: 14,
+        LG: 24,
+        XL: 48
+    },
+    gfx: {
+        char: {
+            HAPPY: 'creatures/Hopper-Happy',
+            JUMPING: 'creatures/Hopper-Jumping'
+        },
+        level: {
+            grass: {
+                UPPER: 'cute/GrassBlock',
+                LOWER: 'cute/DirtBlock'
+            },
+            trees: {
+                TALL: 'cute/TreeTall',
+                UGLY: 'cute/TreeUgly',
+                SHORT: 'cute/TreeShort'
+            },
+            stone: {
+                RAMP_NORTH: 'cute/RampNorth'
+            }
+        },
+        enemy: {
+            FLYING: 'avatars/piceratops-sapling'
+        }
+    },
+    hud: {
+        SCORE: 'Score: '
+    },
+    sounds: {
+        ATTACK: 'retro/hit2',
+        COLLECTITEM: 'rpg/metal-chime',
+        ENDLEVEL: 'retro/laser4'
+    },
+    levelMode: {
+        lvl1: {
+            difficulty: 'easy',
+            scoreNeeded: app.difficulty.EASY.scoreNeeded,
+            scrollSpeed: app.difficulty.EASY.scrollSpeed
+        }
+    }
+};
+
+/* - - - - - - - - - - - - -
+(b) dskldklksdsdk
+   - - - - - - - - - - - - - - - -
+*/
+
+var scrollX = 0;
+var speed = 2;
+var level = 0;
+
+/*-------------------
+  3. Section 3
+ ---------------------
+
+ Beaver Constructor
+ - - - - - - - - - - - - - - - -
+(a) Here we form a Constructor
+    function to assign various
+    values to future instances
+    (beaver characters) in our
+    game.
+   - - - - - - - - - - - - - - - -
+*/
+
+Beaver = function(x, y) {
+    this.img = getImage(config.gfx.char.HAPPY);
+    this.items = 0;
+    this.x = x;
+    this.y = y;
+};
+
+Beaver.prototype.draw = function() {
+    fill(255, 0, 0);
+    this.y = constrain(this.y, 50, height-90);
+    image(this.img, this.x, this.y, 40, 40);
+};
+
+Beaver.prototype.hop = function() {
+    this.img = getImage(config.gfx.char.JUMPING);
+    this.y -= 5;
+};
+
+Beaver.prototype.fall = function() {
+    this.img = getImage(config.gfx.char.HAPPY);
+    this.y += 5;
+};
+
+Beaver.prototype.checkForItemGrab = function(item) {
+    if ((item.x >= this.x &&
+         item.x <= (this.x + 40)) &&
+        (item.y >= this.y &&
+         item.y <= (this.y + 40))) {
+         item.y = -400;
+        this.items++;
+        app.userProgress.scoreTotal++;
+        playSound(getSound(config.sounds.COLLECTITEM));
+    }
+};
+
+Beaver.prototype.checkForAttack = function(item) {
+    if ((item.x >= this.x &&
+         item.x <= (this.x + 40)) &&
+        (item.y >= this.y &&
+         item.y <= (this.y + 40))) {
+         item.y = -400;
+        app.userProgress.scoreTotal--;
+        playSound(getSound(config.sounds.ATTACK));
+    }
+};
+
+beaver = new Beaver(120, 300);
+
+/*-------------------
+  4. Section 4
+ ---------------------
+
+ Item Constructor
+ - - - - - - - - - - - - - - - -
+(a) Here we form a Constructor
+    function to assign various
+    values to future instances
+    (items to collect) in our
+    game.
+   - - - - - - - - - - - - - - - -
+*/
+
+Item = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.img = getImage(config.gfx.char.HAPPY);
+};
+
+Item.prototype.draw = function() {
+    image(this.img, this.x, this.y, 30, 30);
+};
+
+/*-------------------
+  5. Section 5
+ ---------------------
+
+ Enemy Constructor
+ - - - - - - - - - - - - - - - -
+(a) Here we form a Constructor
+    function to assign various
+    values to future instances
+    (enemy characters) in our
+    game.
+   - - - - - - - - - - - - - - - -
+*/
+
+Enemy = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.img = getImage(config.gfx.enemy.FLYING);
+};
+
+Enemy.prototype.draw = function() {
+    image(this.img, this.x, this.y, 30, 30);
+};
+
+enemyVal = {
+  amount: 200,
+  htDev: 1.3,
+  spacing: 120
+};
+
+// Create 40 items
+for (i = 0; i < 100; i++) {
+    items.push
+    (new Item(i * 180 + 300, random(52, 259)));
+}
+
+// Create 50 enemies
+for (i = 0; i < enemyVal.amount; i++) {
+    enemies.push
+    (new Enemy(i * enemyVal.spacing, random(0, height / enemyVal.htDev)));
+}
+
+CreateMenu = function(o) {
+    var bkg = o.backgroundColor,
+        col = o.color,
+        sz = o.fontSize;
+
+    if (app.timeVal.s % 2 === 0) { textSize(sz); }
+    else { textSize(sz - 10); }
+
+    if (app.timeVal.s % 3 === 0) {
+            background(bkg[0] - 10,
+            bkg[1] - 20,
+            bkg[2] - 20);
+        } else {
+            background(bkg[0], bkg[1], bkg[2]);
+        }
+
+    fill(col[0], col[1], col[2]);
+
+    if (o.img) { image(getImage(config.gfx.char.JUMPING), 249, 169, 100, 100); }
+
+    for (i = 0; i < o.text.length; i++) {
+        text(o.text[i].values.title.content,
+             o.text[i].values.title.x,
+             o.text[i].values.title.y,
+             o.text[i].values.title.width,
+             o.text[i].values.title.height);
+
+        textSize(o.text[i].values.title.fontSize);
+        textAlign(o.text[i].values.title.alignment);
+    }
+};
+
+CreateText = function
+(alignment, content, fontSize, height, width, x, y) {
+    return {
+        title: {
+                alignment: alignment,
+                content: content,
+                fontSize: fontSize,
+                height: height,
+                width: width,
+                x: x,
+                y: y
+            }
+    };
+};
+
+CreateButton = function(o) {
+    var bkg = o.backgroundColor,
+        col = o.color,
+        r, rTxt,
+        setButtonState,
+        sz = o.fontSize,
+        textValue,
+        tone = {
+            highlight: 30,
+            lowlight: -30
+        };
+
+    // Rectangle Shape Object
+    r = {
+        width: width/2,
+        height: height/2/2/2,
+        x: width/2 - ((width/2)/2),
+        y: height/2 + ((height/5)/2)
+    };
+
+    // Rectangle Text Object
+    rTxt = {
+        height: r.height/2/2,
+        width: width/2,
+        x: (width/2 - ((width/2)/2)) * 2,
+        y: height/2 + ((height/5)/2) + r.height/1.5
+    };
+
+    setButtonState = function(obj) {
+        fill(obj.bkgCol[0],
+             obj.bkgCol[1],
+             obj.bkgCol[2]);
+        rect(r.x, r.y, r.width, r.height);
+        textAlign(CENTER);
+        textSize(sz);
+        fill(obj.txtCol[0],
+             obj.txtCol[1],
+             obj.txtCol[2]);
+        textValue = CreateText(
+        CENTER, o.text, 10, 100, 50, rTxt.x, rTxt.y);
+        text(textValue.title.content,
+             textValue.title.x,
+             textValue.title.y);
+    };
+
+    setButtonState({
+        txtCol: [col[0], col[1], col[2]],
+        bkgCol: [bkg[0] + tone.lowlight,
+                 bkg[1] + tone.lowlight,
+                 bkg[2] + tone.lowlight]
+    });
+
+    if (mouseX > r.x && mouseX < r.x + r.width &&
+        mouseY > r.y && mouseY < r.y + r.height) {
+
+        cursor(HAND);
+
+        setButtonState({
+        txtCol: [col[0], col[1], col[2]],
+        bkgCol: [config.colors.scheme.RED[0] +
+                 tone.highlight,
+                 config.colors.scheme.RED[1],
+                 config.colors.scheme.RED[2]]
+        });
+        mouseReleased = function() {
+            app.userProgress.screen++;
+        };
+    }
+};
+
+//
+CreateFooter = function(o) {
+    var footer = o.title;
+    textSize(footer.fontSize);
+    text(footer.content, footer.width, footer.height);
+};
+
+CreateInstructions = function(o) {
+    background(config.colors.scheme.DARK[0],
+               config.colors.scheme.DARK[1],
+               config.colors.scheme.DARK[2]);
+
+    fill(config.colors.scheme.RED[0],
+         config.colors.scheme.RED[1],
+         config.colors.scheme.RED[2]);
+
+    textSize(config.fontSz.XL + 10);
+    text(config.txt.main.TXT_LEVEL +
+    (level),
+    0, 100, width, 100);
+
+    fill(config.colors.scheme.WHITE[0],
+         config.colors.scheme.WHITE[1],
+         config.colors.scheme.WHITE[2]);
+
+    textSize(config.fontSz.LG - 9);
+    text(o.instructions.a + '\n\n' +
+         o.instructions.b,
+    width/2/2, 160, width/2, height);
+
+    fill(config.colors.scheme.YELLOW[0],
+         config.colors.scheme.YELLOW[1],
+         config.colors.scheme.YELLOW[2]);
+    textSize(config.fontSz.MD + 3);
+    text(config.txt.main.TXT_LEVELBEGIN +
+         Math.floor(app.levelCountdown) + '...',
+    width/2/2, 340, width - 70, height);
+};
+
+var levelConditions = function(o) {
+        var scoreNeeded = 0;
+        var df = app.difficulty;
+        var pg = app.userProgress;
+
+        switch(o.difficulty) {
+            case 'easy':
+                scoreNeeded = df.EASY.scoreNeeded;
+                break;
+            case 'normal':
+                scoreNeeded = df.NORMAL.scoreNeeded;
+                break;
+            case 'hard':
+                scoreNeeded = df.HARD.scoreNeeded;
+        }
+
+        if (pg.scoreTotal >= scoreNeeded) {
+
+        app.userProgress.screen = o.nextScreen;
+        app.userProgress.scoreTotal = o.nextScore;
+        }
+    };
+
+// Screen 1 (Title Screen)
+screen1 = function() {
+    var titleFooter,
+        titleScreen,
+        titleScreenBtn,
+        titleScreenFooter;
+
+    noStroke();
+
+    titleScreen = CreateMenu({
+        backgroundColor: config.colors.scheme.DARK,
+        color: config.colors.scheme.WHITE,
+        fontSize: config.fontSz.XL + 10,
+        img: true,
+        text: [{
+            values: CreateText(CENTER,
+                    config.txt.main.TXT_HEADING,
+                    config.fontSz.LG - 5, 200,
+                    width, 0, 125)
+            }, {
+            values: CreateText(CENTER,
+                    config.txt.main.TXT_SHEADING,
+                    config.fontSz.XL, 200, width, 0, 180)
+            }]
+    });
+
+    titleScreenBtn = CreateButton({
+        backgroundColor: [
+            config.colors.scheme.RED[0],
+            config.colors.scheme.RED[1],
+            config.colors.scheme.RED[2]],
+        color: [
+            config.colors.scheme.YELLOW[0],
+            config.colors.scheme.YELLOW[1],
+            config.colors.scheme.YELLOW[2]],
+        fontSize: config.fontSz.LG,
+        text: config.txt.main.TXT_GAMEBEGIN
+    });
+
+    titleFooter = CreateText(CENTER,
+                    config.txt.main.TXT_FOOTER,
+                    config.fontSz.XS,
+                    height - 25, width/2, 0, 180);
+
+    titleScreenFooter = CreateFooter(titleFooter);
+};
+
+// Screen 1 (Level 1 Instructions)
+var screen2Instructions = function() {
+    level = 1;
+
+    if(!instructionStatus.screen2) {
+        app.levelCountdown = app.COUNTDOWNVAL;
+        instructionStatus.screen2 = true;
+    }
+
+    CreateInstructions({
+        instructions: {
+            a: config.txt.instructions.lvl_1.TXT_I1A,
+            b: config.txt.instructions.lvl_1.TXT_I1B
+        }
+    });
+    if (app.levelCountdown >= 0) {
+        app.levelCountdown -= 0.04;
+    } else {
+       screen2();
+       scrollX -= speed;
+       enableBeaver();
+    }
+};
+
+// Screen 2 (Level 1 - Actual Game)
+screen2 = function() {
+    //
+    var mode = config.levelMode.lvl1;
+    var difficulty = mode.difficulty;
+    var scoreNeeded = mode.scoreNeeded;
+    var scrollSpeed = mode.scrollSpeed;
+    var toysNeeded = 'Need: ' +
+    (scoreNeeded - app.userProgress.scoreTotal);
+
+    speed = scrollSpeed;
+
+    levelConditions({
+        difficulty: difficulty,
+        nextScore: 0,
+        nextScreen: 3
+    });
+
+    var gfx = {
+        bkg: config.colors.scheme.CYAN,
+        bkgHud: config.colors.scheme.DARK,
+        col: config.colors.scheme.WHITE
+    };
+
+    var grass = {
+        height: 70,
+        width: 20,
+        y: height * 0.87
+    };
+
+    background(gfx.bkg[0], gfx.bkg[1], gfx.bkg[2]);
+    fill(gfx.bkgHud[0], gfx.bkgHud[1], gfx.bkgHud[2]);
+    rect(0, 0, width, 30);
+    fill(gfx.col[0], gfx.col[1], gfx.col[2]);
+    textSize(config.fontSz.MD);
+
+    text(config.hud.SCORE +
+         app.userProgress.scoreTotal,
+         10, 10, 100, 200);
+
+    text(toysNeeded,
+         200, 10, 100, 200);
+
+    var scroller = function(o) {
+        var hDev = o.heightDeviation,
+            img = o.img,
+            slowness = o.slowness,
+            spacing = o.spacing;
+
+        for (i = scrollX / slowness;
+             i < width;
+             i += grass.width * spacing) {
+
+            image(getImage(img),
+            i, grass.y - hDev,
+            grass.width, grass.height);
+        }
+    };
+
+    var treeTall = scroller({
+        img: config.gfx.level.trees.TALL,
+        heightDeviation: 64,
+        slowness: 7,
+        spacing: 1.3
+    });
+
+    var treeUgly = scroller({
+        img: config.gfx.level.trees.UGLY,
+        heightDeviation: 50,
+        slowness: 5,
+        spacing: 2.9
+    });
+
+    var treeUgly = scroller({
+        img: config.gfx.level.trees.SHORT,
+        heightDeviation: 60,
+        slowness: 3,
+        spacing: 20
+    });
+
+    for (i = scrollX; i < width;
+         i += grass.width) {
+        image(getImage(config.gfx.level.grass.UPPER),
+        i, grass.y - 20, grass.width, grass.height);
+        image(getImage(config.gfx.level.grass.LOWER),
+        i, grass.y, grass.width, grass.height);
+    }
+};
+
+var soundPlayed = false;
+
+// Screen 3 (Level 1 Complete)
+
+screen3 = function() {
+    if (!soundPlayed) {
+        playSound(getSound(config.sounds.ENDLEVEL));
+        soundPlayed = true;
+    }
+
+    var titleFooter,
+        titleScreen,
+        titleScreenBtn,
+        titleScreenFooter;
+
+    noStroke();
+
+    titleScreen = CreateMenu({
+        backgroundColor: config.colors.scheme.DARK,
+        color: config.colors.scheme.WHITE,
+        fontSize: config.fontSz.XL,
+        text: [{
+            values: CreateText(CENTER,
+                    config.txt.main.TXT_COMPLETE,
+                    config.fontSz.LG - 5, 50,
+                    width, 0, 125)
+            }, {
+            values: CreateText(CENTER,
+                    'You got ' +
+                    app.userProgress.scoreTotal +
+                    ' points in Y seconds!',
+                    config.fontSz.SM,
+                    40, width, 0, 180)
+            }]
+    });
+
+    titleScreenBtn = CreateButton({
+        backgroundColor: [
+            config.colors.scheme.RED[0],
+            config.colors.scheme.RED[1],
+            config.colors.scheme.RED[2]],
+        color: [
+            config.colors.scheme.YELLOW[0],
+            config.colors.scheme.YELLOW[1],
+            config.colors.scheme.YELLOW[2]],
+        fontSize: config.fontSz.LG,
+        text: config.txt.main.TXT_NEXTLEVEL
+    });
+};
+
+// Screen 4 (Level 2 Instructions)
+
+var screen4Instructions = function() {
+    level = 2;
+    if(!instructionStatus.screen4) {
+        app.levelCountdown = app.COUNTDOWNVAL;
+        instructionStatus.screen4 = true;
+    }
+
+    CreateInstructions({
+        instructions: {
+            a: 'Now it gets difficult.',
+            b: 'Much faster and much more dangerous!'
+        }
+    });
+    if (app.levelCountdown >= 0) {
+        app.levelCountdown -= 0.04;
+    } else {
+       screen4();
+       scrollX -= speed;
+       enableBeaver();
+    }
+};
+
+// Screen 4 (Level 2 - Actual Game)
+screen4 = function() {
+
+    soundPlayed = false;
+
+    levelConditions({
+        difficulty: 'normal',
+        nextScore: 0,
+        nextScreen: 5
+    });
+
+    speed = app.difficulty.NORMAL.scrollSpeed;
+
+    var bkg = [0, 0, 0], // change to ....
+        bkgHUD = config.colors.scheme.DARK,
+        col = config.colors.scheme.WHITE,
+        grass = {
+        height: 70,
+        width: 40,
+        y: height * 0.87
+    };
+
+    background(bkg[0], bkg[1], bkg[2]);
+    fill(bkgHUD[0], bkgHUD[1], bkgHUD[2]);
+    rect(0, 0, width, 30);
+    fill(col[0], col[1], col[2]);
+    textSize(config.fontSz.MD);
+    text(config.hud.SCORE +
+         app.userProgress.scoreTotal,
+         10, 10, 100, 200);
+
+    var scroller = function(o) {
+        var hDev = o.heightDeviation,
+            img = o.img,
+            slowness = o.slowness,
+            spacing = o.spacing;
+
+        for (i = scrollX / slowness;
+             i < width;
+             i += grass.width * spacing) {
+
+            image(getImage(img),
+            i, grass.y - hDev,
+            grass.width, grass.height);
+        }
+    };
+
+    var rampNorth = scroller({
+        img: config.gfx.level.stone.RAMP_NORTH,
+        heightDeviation: 64,
+        slowness: 14,
+        spacing: 2
+    });
+
+    var treeUgly = scroller({
+        img: "avatars/robot_male_2",
+        heightDeviation: 45,
+        slowness: 10,
+        spacing: 20
+    });
+
+    for (i = scrollX; i < width;
+         i += grass.width) {
+        image(getImage("cute/WoodBlock"),
+        i, grass.y - 20, grass.width, grass.height);
+        image(getImage("cute/StoneBlock"),
+        i, grass.y, grass.width, grass.height);
+    }
+};
+
+var screen5 = function() {
+    if (!soundPlayed) {
+        playSound(getSound(config.sounds.ENDLEVEL));
+        soundPlayed = true;
+    }
+
+    var titleFooter,
+        titleScreen,
+        titleScreenBtn,
+        titleScreenFooter;
+
+    noStroke();
+
+    titleScreen = CreateMenu({
+        backgroundColor: config.colors.scheme.DARK,
+        color: config.colors.scheme.WHITE,
+        fontSize: config.fontSz.XL,
+        text: [{
+            values: CreateText(CENTER,
+                    config.txt.main.TXT_COMPLETE,
+                    config.fontSz.LG - 5, 50,
+                    width, 0, 125)
+            }, {
+            values: CreateText(CENTER,
+                    'You got ' +
+                    app.userProgress.scoreTotal +
+                    ' points in Y seconds!',
+                    config.fontSz.SM,
+                    40, width, 0, 180)
+            }]
+    });
+
+    titleScreenBtn = CreateButton({
+        backgroundColor: [
+            config.colors.scheme.RED[0],
+            config.colors.scheme.RED[1],
+            config.colors.scheme.RED[2]],
+        color: [
+            config.colors.scheme.YELLOW[0],
+            config.colors.scheme.YELLOW[1],
+            config.colors.scheme.YELLOW[2]],
+        fontSize: config.fontSz.LG,
+        text: config.txt.main.TXT_FINISH
+    });
+};
+
+var creditsFormat = {
+    gapL: 100,
+    gapM: 80,
+    posY: 315,
+    width: width
+};
+
+var gameCompleteScreen = function() {
+    if (!soundPlayed) {
+        playSound(getSound(config.sounds.ENDLEVEL));
+        soundPlayed = true;
+    }
+
+    var titleFooter,
+        titleScreen,
+        titleScreenBtn,
+        titleScreenFooter;
+
+    noStroke();
+
+    titleScreen = CreateMenu({
+        backgroundColor: config.colors.scheme.DARK,
+        color: config.colors.scheme.WHITE,
+        fontSize: config.fontSz.XL,
+        text: [{
+            values: CreateText(CENTER,
+                    config.txt.main.TXT_GAMECOMPLETE,
+                    config.fontSz.LG - 5, 50,
+                    width, 0, 125)
+            }]
+    });
+fill(255, 0, 0);
+    text('CONGRATULATIONS', width/width/2, 100, width, 100);
+
+    image(getImage("creatures/Hopper-Cool"), 155, 200, 100, 100);
+    image(getImage(config.gfx.char.HAPPY), 101, 268, 35, 35);
+    image(getImage(config.gfx.char.HAPPY), 145, 267, 25, 25);
+    image(getImage("creatures/Hopper-Happy"), 261, 262, 35, 35);
+    image(getImage("creatures/Hopper-Happy"), 228, 284, 40, 40);
+    image(getImage("creatures/Hopper-Happy"), 143, 290, 45, 45);
+
+    if (app.levelCountdown > 0) {
+        app.levelCountdown -= 0.03;
+    } else {
+        app.userProgress.screen = 7;
+    }
+    text(app.levelCountdown, 100, 100);
+};
+
+var gap = 100;
+
+var creditsScreen = function() {
+
+    if (creditsFormat.posY > -750) {
+        creditsFormat.posY -= 1;
+    } else {
+        app.userProgress.screen = 1;
+    }
+
+    background(0, 0, 0);
+    fill(255, 0, 0);
+    textSize(16);
+
+    textAlign(CENTER);
+    text(config.credits.END_CREDIT_HEADING, 0, creditsFormat.posY, width, height);
+
+    textAlign(CENTER);
+    text(config.credits.END_CREDIT_PROJECT, 0, creditsFormat.posY + creditsFormat.gapL, width, height);
+
+    textAlign(CENTER);
+    text(config.credits.END_CREDIT_STARRING, 0, creditsFormat.posY + creditsFormat.gapL * 2, width, height);
+
+    for (var i = 3, j = 0 ; j < config.credits.END_CREDITS.length; j += 1, i += 0.5) {
+        textAlign(CENTER);
+        text(config.credits.END_CREDITS[j][0] + '   -   ' +
+             config.credits.END_CREDITS[j][1], 0,
+             creditsFormat.posY + creditsFormat.gapM * i, width, height);
+    }
+
+};
+
+var interstitial = function(num) {
+    switch(num) {
+        case 2:
+            screen2Instructions();
+            break;
+        case 4:
+            screen4Instructions();
+            break;
+    }
+
+};
+
+enableBeaver = function() {
+    if (keyIsPressed && keyCode === 0) {
+        beaver.hop();
+    } else {
+        beaver.fall();
+    }
+    beaver.draw();
+
+    for (i = 0; i < items.length; i++) {
+        items[i].draw();
+        beaver.checkForItemGrab(items[i]);
+        items[i].x -= speed;
+    }
+
+    for (i = 0; i < enemies.length; i++) {
+        enemies[i].draw();
+        beaver.checkForAttack(enemies[i]);
+        enemies[i].x -= speed * 2;
+    }
+};
+
+disableMouse = function() {
+    cursor();
+    mouseReleased = function() { return false; };
+};
+
+var updateClock = function() {
+    app.timeVal.h = hour();
+    app.timeVal.m = minute();
+    app.timeVal.s = second();
+};
+
+// "draw" function runs constantly on an interval
+draw = function() {
+    disableMouse();
+    updateClock();
+
+    //
+    switch(app.userProgress.screen) {
+        case 1:
+            screen1();
+            break;
+        case 2:
+            interstitial(2);
+            break;
+        case 3:
+            screen3();
+            break;
+        case 4:
+            interstitial(4);
+            break;
+        case 5:
+           screen5();
+            break;
+        case 6:
+            gameCompleteScreen();
+            break;
+        case 7:
+            app.levelCountdown = app.COUNTDOWNVAL;
+            creditsScreen();
+    }
+
+    // SCREEN 1 = Level 1 instructions
+    // SCREEN 2 = Level 1 (actual game)
+    // SCREEN 3 = Level 1 complete
+    // SCREEN 4 = Level 2 instructions
+    // SCREEN 5 = Level 2 (actual game)
+};
