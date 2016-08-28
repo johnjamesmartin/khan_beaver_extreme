@@ -83,7 +83,7 @@ app = {
         s: 0
     },
     userProgress: {
-        screen: 6,
+        screen: 1,
         scoreTotal: 0,
         difficulty: 'easy'
     },
@@ -790,9 +790,7 @@ screen3 = function() {
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
-                    'You got ' +
-                    app.userProgress.scoreTotal +
-                    ' points in Y seconds!',
+                    'You did it!',
                     UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
@@ -946,9 +944,7 @@ var screen5 = function() {
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
-                    'You got ' +
-                    app.userProgress.scoreTotal +
-                    ' points in Y seconds!',
+                    'You did it!',
                     UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
@@ -1018,13 +1014,12 @@ gameCompleteScreen = function() {
     image(getImage("creatures/Hopper-Happy"), 143, 290, 45, 45);
 
     // 
-
+    
     if (app.levelCountdown > 0) {
         app.levelCountdown -= 0.03;
     } else {
         app.userProgress.screen = 7;
     }
-    text(app.levelCountdown, 100, 100);
 };
 
 
