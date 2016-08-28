@@ -17,7 +17,7 @@
 var app,
     beaver,
     Beaver,
-    config,
+    CONFIG,
     CreateButton,
     CreateFooter,
     CreateInstructions,
@@ -45,6 +45,7 @@ var app,
     screen3,
     screen4,
     scrollX,
+    soundPlayed,
     SOUNDS,
     speed,
     TEXT_LABELS,
@@ -106,17 +107,15 @@ instructionStatus = {
 /*  :
 ************************************************/
 
-config = {
-    txt: {
-        instructions: {
-            lvl_1: {
-                TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
-                TXT_I1B: 'Watch for the Piceratopses!'
-            }
+CONFIG = {
+    INSTRUCTIONS: {
+        LVL_1: {
+            TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
+            TXT_I1B: 'Watch for the Piceratopses!'
         }
     },
-    levelMode: {
-        lvl1: {
+    LEVEL_MODE: {
+        LVL_1: {
             difficulty: 'easy',
             scoreNeeded: app.difficulty.EASY.scoreNeeded,
             scrollSpeed: app.difficulty.EASY.scrollSpeed
@@ -157,9 +156,7 @@ GRAPHICS = {
 ************************************************/
 
 TEXT_LABELS = {
-    HUD: {
-        SCORE: 'Score: '
-    },
+    HUD: { SCORE: 'Score: ' },
     HEADING: 'Hoppy Beaver',
     SUB_HEADING: '[Extreme]',
     FOOTER: 'Game by John for Khan Academy',
@@ -533,8 +530,8 @@ CreateInstructions = function(o) {
          UI_STYLES.COLOURS.WHITE[1],
          UI_STYLES.COLOURS.WHITE[2]);
     textSize(UI_STYLES.FONT_SIZE.LG - 9);
-    text(o.instructions.a + '\n\n' +
-         o.instructions.b,
+    text(o.INSTRUCTIONS.a + '\n\n' +
+         o.INSTRUCTIONS.b,
     width/2/2, 160, width/2, height);
     fill(UI_STYLES.COLOURS.YELLOW[0],
          UI_STYLES.COLOURS.YELLOW[1],
@@ -638,9 +635,9 @@ var screen2Instructions = function() {
     }
 
     CreateInstructions({
-        instructions: {
-            a: config.txt.instructions.lvl_1.TXT_I1A,
-            b: config.txt.instructions.lvl_1.TXT_I1B
+        INSTRUCTIONS: {
+            a: CONFIG.INSTRUCTIONS.LVL_1.TXT_I1A,
+            b: CONFIG.INSTRUCTIONS.LVL_1.TXT_I1B
         }
     });
 
@@ -669,7 +666,7 @@ screen2 = function() {
         treeTall,
         treeUgly;
 
-    mode = config.levelMode.lvl1;
+    mode = CONFIG.LEVEL_MODE.LVL_1;
     difficulty = mode.difficulty;
     scoreNeeded = mode.scoreNeeded;
     scrollSpeed = mode.scrollSpeed;
@@ -756,7 +753,7 @@ screen2 = function() {
 /*  :
 ************************************************/
 
-var soundPlayed = false;
+soundPlayed = false;
 
 
 /*  :
@@ -820,7 +817,7 @@ var screen4Instructions = function() {
     }
 
     CreateInstructions({
-        instructions: {
+        INSTRUCTIONS: {
             a: 'Now it gets difficult.',
             b: 'Much faster and much more dangerous!'
         }
@@ -1156,9 +1153,9 @@ draw = function() {
             creditsScreen();
     }
 
-    // SCREEN 1 = Level 1 instructions
+    // SCREEN 1 = Level 1 INSTRUCTIONS
     // SCREEN 2 = Level 1 (actual game)
     // SCREEN 3 = Level 1 complete
-    // SCREEN 4 = Level 2 instructions
+    // SCREEN 4 = Level 2 INSTRUCTIONS
     // SCREEN 5 = Level 2 (actual game)
 };
