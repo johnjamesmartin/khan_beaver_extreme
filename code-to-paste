@@ -3,11 +3,16 @@
 /*  Changes made to original:
 ************************************************
 
-  (1) 
+  (1) Inverted collision mechanism.
+  
+  (2) Added obstacles, additional enemies, an HUD,
+   interstitials (with instructions) and end credits.
 
-  (2)
+  (3) Made the original game more difficult by
+  introducing a second level.
 
-  (3)
+  (4) Added the required >30 lines of code.
+  
 ************************************************/
 
 
@@ -156,7 +161,9 @@ GRAPHICS = {
 ************************************************/
 
 TEXT_LABELS = {
-    HUD: { SCORE: 'Score: ' },
+    HUD: {
+        SCORE: 'Score: '
+    },
     HEADING: 'Hoppy Beaver',
     SUB_HEADING: '[Extreme]',
     FOOTER: 'Game by John for Khan Academy',
