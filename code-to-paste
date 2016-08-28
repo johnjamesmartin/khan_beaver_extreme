@@ -24,16 +24,19 @@ var app,
     CreateMenu,
     CreateText,
     CREDITS,
+    creditsFormat,
     creditsScreen,
     disableMouse,
     enableBeaver,
     Enemy,
     enemies,
     enemyVal,
+    gameCompleteScreen,
     gap,
     GRAPHICS,
     i,
     instructionStatus,
+    interstitial,
     Item,
     items,
     level,
@@ -45,7 +48,8 @@ var app,
     SOUNDS,
     speed,
     TEXT_LABELS,
-    UI_STYLES;
+    UI_STYLES,
+    updateClock;
 
 
 /*  :
@@ -376,25 +380,24 @@ for (i = 0; i < enemyVal.amount; i++) {
 ************************************************/
 
 CreateMenu = function(o) {
-    var bkg = o.backgroundColor, col = o.color,
+    var backgroundColour = o.backgroundColor,
+        colourVal = o.color,
         fontSz = o.fontSize;
 
-    // Animate text size with time interval:
+    // Animate with time intervals:
 
     if (app.timeVal.s % 2 === 0) { textSize(fontSz); }
     else { textSize(fontSz - 10); }
 
-    // Animate background colour with time interval:
-
     if (app.timeVal.s % 3 === 0) {
-            background(bkg[0] - 10,
-            bkg[1] - 20,
-            bkg[2] - 20);
-        } else {
-            background(bkg[0], bkg[1], bkg[2]);
-        }
+            background(backgroundColour[0] - 10,
+            backgroundColour[1] - 20,
+            backgroundColour[2] - 20);
+    } else {
+        background(backgroundColour[0], backgroundColour[1], backgroundColour[2]);
+    }
 
-    fill(col[0], col[1], col[2]);
+    fill(colourVal[0], colourVal[1], colourVal[2]);
 
     if (o.img) { image(getImage(GRAPHICS.CHARACTER_SPRITE.JUMPING), 249, 169, 100, 100); }
 
@@ -433,8 +436,8 @@ CreateText = function
 ************************************************/
 
 CreateButton = function(o) {
-    var bkg = o.backgroundColor,
-        col = o.color,
+    var backgroundColour = o.backgroundColor,
+        colourVal = o.color,
         rectDimensions, rectTextDimensions,
         setButtonState,
         fontSz = o.fontSize,
@@ -444,7 +447,7 @@ CreateButton = function(o) {
             lowlight: -30
         };
 
-    // Rectangle Shape Object
+    // Rectangle shape and text objects:
 
     rectDimensions = {
         width: width/2,
@@ -452,8 +455,6 @@ CreateButton = function(o) {
         x: width/2 - ((width/2)/2),
         y: height/2 + ((height/5)/2)
     };
-
-    // Rectangle Text Object
 
     rectTextDimensions = {
         height: rectDimensions.height/2/2,
@@ -480,19 +481,17 @@ CreateButton = function(o) {
     };
 
     setButtonState({
-        txtCol: [col[0], col[1], col[2]],
-        bkgCol: [bkg[0] + tone.lowlight,
-                 bkg[1] + tone.lowlight,
-                 bkg[2] + tone.lowlight]
+        txtCol: [colourVal[0], colourVal[1], colourVal[2]],
+        bkgCol: [backgroundColour[0] + tone.lowlight,
+                 backgroundColour[1] + tone.lowlight,
+                 backgroundColour[2] + tone.lowlight]
     });
 
     if (mouseX > rectDimensions.x && mouseX < rectDimensions.x + rectDimensions.width &&
         mouseY > rectDimensions.y && mouseY < rectDimensions.y + rectDimensions.height) {
-
         cursor(HAND);
-
         setButtonState({
-        txtCol: [col[0], col[1], col[2]],
+        txtCol: [colourVal[0], colourVal[1], colourVal[2]],
         bkgCol: [UI_STYLES.COLOURS.RED[0] +
                  tone.highlight,
                  UI_STYLES.COLOURS.RED[1],
@@ -522,6 +521,7 @@ CreateInstructions = function(o) {
     background(UI_STYLES.COLOURS.DARK[0],
                UI_STYLES.COLOURS.DARK[1],
                UI_STYLES.COLOURS.DARK[2]);
+    
     fill(UI_STYLES.COLOURS.RED[0],
          UI_STYLES.COLOURS.RED[1],
          UI_STYLES.COLOURS.RED[2]);
@@ -529,16 +529,13 @@ CreateInstructions = function(o) {
     text(TEXT_LABELS.LEVEL +
     (level),
     0, 100, width, 100);
-
     fill(UI_STYLES.COLOURS.WHITE[0],
          UI_STYLES.COLOURS.WHITE[1],
          UI_STYLES.COLOURS.WHITE[2]);
-
     textSize(UI_STYLES.FONT_SIZE.LG - 9);
     text(o.instructions.a + '\n\n' +
          o.instructions.b,
     width/2/2, 160, width/2, height);
-
     fill(UI_STYLES.COLOURS.YELLOW[0],
          UI_STYLES.COLOURS.YELLOW[1],
          UI_STYLES.COLOURS.YELLOW[2]);
@@ -555,7 +552,7 @@ CreateInstructions = function(o) {
 var levelConditions = function(o) {
         var scoreNeeded, gameDifficulty,
             gameUserProgress;
-            
+        
         scoreNeeded = 0;
         gameDifficulty = app.difficulty;
         gameUserProgress = app.userProgress;
@@ -687,21 +684,21 @@ screen2 = function() {
     });
 
     gfx = {
-        bkg: UI_STYLES.COLOURS.CYAN,
+        backgroundColour: UI_STYLES.COLOURS.CYAN,
         bkgHud: UI_STYLES.COLOURS.DARK,
-        col: UI_STYLES.COLOURS.WHITE
+        colourVal: UI_STYLES.COLOURS.WHITE
     };
-
+ 
     grass = {
         height: 70,
         width: 20,
         y: height * 0.87
     };
 
-    background(gfx.bkg[0], gfx.bkg[1], gfx.bkg[2]);
+    background(gfx.backgroundColour[0], gfx.backgroundColour[1], gfx.backgroundColour[2]);
     fill(gfx.bkgHud[0], gfx.bkgHud[1], gfx.bkgHud[2]);
     rect(0, 0, width, 30);
-    fill(gfx.col[0], gfx.col[1], gfx.col[2]);
+    fill(gfx.colourVal[0], gfx.colourVal[1], gfx.colourVal[2]);
     textSize(UI_STYLES.FONT_SIZE.MD);
     text(TEXT_LABELS.HUD.SCORE +
          app.userProgress.scoreTotal,
@@ -710,7 +707,7 @@ screen2 = function() {
          200, 10, 100, 200);
 
     scroller = function(o) {
-        var hDev = o.heightDeviation,
+        var heightDev = o.heightDeviation,
             img = o.img,
             slowness = o.slowness,
             spacing = o.spacing;
@@ -720,7 +717,7 @@ screen2 = function() {
              i += grass.width * spacing) {
 
             image(getImage(img),
-            i, grass.y - hDev,
+            i, grass.y - heightDev,
             grass.width, grass.height);
         }
     };
@@ -828,6 +825,7 @@ var screen4Instructions = function() {
             b: 'Much faster and much more dangerous!'
         }
     });
+
     if (app.levelCountdown >= 0) {
         app.levelCountdown -= 0.04;
     } else {
@@ -842,9 +840,9 @@ var screen4Instructions = function() {
 ************************************************/
 
 screen4 = function() {
-    var bkg, 
-        bkgHUD,
-        col,
+    var backgroundColour, 
+        backgroundHUD,
+        colourVal,
         grass,
         rampNorth,
         scroller,
@@ -859,26 +857,26 @@ screen4 = function() {
     });
 
     speed = app.difficulty.NORMAL.scrollSpeed;
-    bkg = [0, 0, 0];
-    bkgHUD = UI_STYLES.COLOURS.DARK;
-    col = UI_STYLES.COLOURS.WHITE;
+    backgroundColour = [0, 0, 0];
+    backgroundHUD = UI_STYLES.COLOURS.DARK;
+    colourVal = UI_STYLES.COLOURS.WHITE;
     grass = {
         height: 70,
         width: 40,
         y: height * 0.87
     };
 
-    background(bkg[0], bkg[1], bkg[2]);
-    fill(bkgHUD[0], bkgHUD[1], bkgHUD[2]);
+    background(backgroundColour[0], backgroundColour[1], backgroundColour[2]);
+    fill(backgroundHUD[0], backgroundHUD[1], backgroundHUD[2]);
     rect(0, 0, width, 30);
-    fill(col[0], col[1], col[2]);
+    fill(colourVal[0], colourVal[1], colourVal[2]);
     textSize(UI_STYLES.FONT_SIZE.MD);
     text(TEXT_LABELS.HUD.SCORE +
          app.userProgress.scoreTotal,
          10, 10, 100, 200);
 
     scroller = function(o) {
-        var hDev = o.heightDeviation,
+        var heightDev = o.heightDeviation,
             img = o.img,
             slowness = o.slowness,
             spacing = o.spacing;
@@ -888,7 +886,7 @@ screen4 = function() {
              i += grass.width * spacing) {
 
             image(getImage(img),
-            i, grass.y - hDev,
+            i, grass.y - heightDev,
             grass.width, grass.height);
         }
     };
@@ -970,7 +968,7 @@ var screen5 = function() {
 /*  :
 ************************************************/
 
-var creditsFormat = {
+creditsFormat = {
     gapL: 100,
     gapM: 80,
     posY: 315,
@@ -981,7 +979,7 @@ var creditsFormat = {
 /*  :
 ************************************************/
 
-var gameCompleteScreen = function() {
+gameCompleteScreen = function() {
     if (!soundPlayed) {
         playSound(getSound(SOUNDS.END_LEVEL));
         soundPlayed = true;
@@ -1077,7 +1075,6 @@ var interstitial = function(num) {
             screen4Instructions();
             break;
     }
-
 };
 
 
@@ -1119,7 +1116,7 @@ disableMouse = function() {
 /*  :
 ************************************************/
 
-var updateClock = function() {
+updateClock = function() {
     app.timeVal.h = hour();
     app.timeVal.m = minute();
     app.timeVal.s = second();
