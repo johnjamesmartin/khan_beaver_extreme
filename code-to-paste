@@ -109,6 +109,8 @@ instructionStatus = {
 };
 
 
+
+
 /*  :
 ************************************************/
 
@@ -117,6 +119,10 @@ CONFIG = {
         LVL_1: {
             TXT_I1A: 'Collect ' + app.difficulty.EASY.scoreNeeded + ' Hoppy toys.',
             TXT_I1B: 'Watch for the Piceratopses!'
+        },
+        LVL_2: {
+            TXT_I1A: 'Now it gets difficult.',
+            TXT_I1B: 'Much faster and much more dangerous!'
         }
     },
     LEVEL_MODE: {
@@ -124,6 +130,8 @@ CONFIG = {
             difficulty: 'easy',
             scoreNeeded: app.difficulty.EASY.scoreNeeded,
             scrollSpeed: app.difficulty.EASY.scrollSpeed
+        },
+        LVL_2: {
         }
     }
 };
@@ -823,8 +831,8 @@ var screen4Instructions = function() {
 
     CreateInstructions({
         INSTRUCTIONS: {
-            a: 'Now it gets difficult.',
-            b: 'Much faster and much more dangerous!'
+            a: CONFIG.INSTRUCTIONS.LVL_2.TXT_I1A,
+            b: CONFIG.INSTRUCTIONS.LVL_2.TXT_I1B
         }
     });
 
@@ -962,6 +970,7 @@ var screen5 = function() {
         fontSize: UI_STYLES.FONT_SIZE.LG,
         text: TEXT_LABELS.FINISH
     });
+    app.levelCountdown = 10;
 };
 
 
