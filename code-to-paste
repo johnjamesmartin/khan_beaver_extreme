@@ -68,7 +68,7 @@ var app,
     updateClock;
 
 
-/*  :
+/*  App object with various game properties:
 ************************************************/
    
 app = {
@@ -102,7 +102,7 @@ app = {
 };
 
 
-/*  :
+/*  Arrays to contain generated item and enemies:
 ************************************************/
 
 items = []; enemies = [];
@@ -117,8 +117,6 @@ instructionStatus = {
     screen3: false,
     screen4: false
 };
-
-
 
 
 /*  :
@@ -1029,7 +1027,7 @@ gameCompleteScreen = function() {
 
 
     // FIX THIS
-    
+
     image(getImage("creatures/Hopper-Cool"), 155, 200, 100, 100);
     image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 101, 268, 35, 35);
     image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 145, 267, 25, 25);
@@ -1089,7 +1087,7 @@ creditsScreen = function() {
 /*  :
 ************************************************/
 
-var interstitial = function(num) {
+interstitial = function(num) {
     switch(num) {
         case 2:
             screen2Instructions();
