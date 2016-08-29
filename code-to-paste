@@ -1,3 +1,13 @@
+/* things left to do:
+
+1. Comments
+2. Use variables in place of hardcoding image references
+3. Level mode... update
+
+
+*/
+
+
 // Spin-off of "Project: Hoppy Beaver Extreme" by John
 
 /*  Changes made to original:
@@ -130,8 +140,6 @@ CONFIG = {
             difficulty: 'easy',
             scoreNeeded: app.difficulty.EASY.scoreNeeded,
             scrollSpeed: app.difficulty.EASY.scrollSpeed
-        },
-        LVL_2: {
         }
     }
 };
@@ -181,7 +189,9 @@ TEXT_LABELS = {
     LEVEL_BEGIN: 'Level beginning in ',
     LEVEL_NEXT: 'Next Level',
     LEVEL_COMPLETE: 'Level Complete!',
-    GAME_COMPLETE: 'GAME COMPLETE'
+    GAME_COMPLETE: 'GAME COMPLETE',
+    CONGRATULATIONS: 'CONGRATULATIONS',
+    YOU_DID_IT: 'You did it!'
 };
 
 
@@ -798,7 +808,7 @@ screen3 = function() {
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
-                    'You did it!',
+                    TEXT_LABELS.YOU_DID_IT,
                     UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
@@ -952,7 +962,7 @@ var screen5 = function() {
                     width, 0, 125)
             }, {
             values: CreateText(CENTER,
-                    'You did it!',
+                    TEXT_LABELS.YOU_DID_IT,
                     UI_STYLES.FONT_SIZE.SM,
                     40, width, 0, 180)
             }]
@@ -1013,8 +1023,13 @@ gameCompleteScreen = function() {
             }]
     });
     fill(255, 0, 0);
-    text('CONGRATULATIONS', width/width/2, 100, width, 100);
+    text(TEXT_LABELS.CONGRATULATIONS, width/width/2, 100, width, 100);
 
+
+
+
+    // FIX THIS
+    
     image(getImage("creatures/Hopper-Cool"), 155, 200, 100, 100);
     image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 101, 268, 35, 35);
     image(getImage(GRAPHICS.CHARACTER_SPRITE.HAPPY), 145, 267, 25, 25);
@@ -1022,7 +1037,7 @@ gameCompleteScreen = function() {
     image(getImage("creatures/Hopper-Happy"), 228, 284, 40, 40);
     image(getImage("creatures/Hopper-Happy"), 143, 290, 45, 45);
 
-    // 
+    // :
     
     if (app.levelCountdown > 0) {
         app.levelCountdown -= 0.03;
