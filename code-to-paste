@@ -55,8 +55,10 @@ var app,
     Item,
     items,
     level,
+    levelConditions,
     screen1,
     screen2,
+    screen2Instructions,
     screen3,
     screen4,
     scrollX,
@@ -143,7 +145,8 @@ CONFIG = {
 };
 
 
-/*  :
+/*  GRAPHICS object with graphics to be used
+    throughout the game:
 ************************************************/
 
 GRAPHICS = {
@@ -171,7 +174,8 @@ GRAPHICS = {
 };
 
 
-/*  :
+/*  TEXT_LABELS object with text to be used
+    throughout the game:
 ************************************************/
 
 TEXT_LABELS = {
@@ -193,7 +197,8 @@ TEXT_LABELS = {
 };
 
 
-/*  :
+/*  CREDITS object with credit text to be used
+    at the end — when game has been completed:
 ************************************************/
 
 CREDITS = {
@@ -217,7 +222,8 @@ CREDITS = {
 };
 
 
-/*  :
+/*  SOUNDS object with sounds to be used
+    throughout the game:
 ************************************************/
 
 SOUNDS = {
@@ -227,7 +233,7 @@ SOUNDS = {
 };
 
 
-/*  :
+/*  UI_STYLES contains style properties:
 ************************************************/
 
 UI_STYLES = {
@@ -256,7 +262,7 @@ scrollX = 0;
 speed = 2;
 
 
-/*  :
+/*  Beaver (Hopper) constructor:
 ************************************************/
 
 Beaver = function(x, y) {
@@ -267,7 +273,7 @@ Beaver = function(x, y) {
 };
 
 
-/*  :
+/*  Beaver draw function:
 ************************************************/
 
 Beaver.prototype.draw = function() {
@@ -277,7 +283,7 @@ Beaver.prototype.draw = function() {
 };
 
 
-/*  :
+/*  Beaver hop function:
 ************************************************/
 
 Beaver.prototype.hop = function() {
@@ -286,7 +292,7 @@ Beaver.prototype.hop = function() {
 };
 
 
-/*  :
+/*  Beaver fall function:
 ************************************************/
 
 Beaver.prototype.fall = function() {
@@ -295,7 +301,9 @@ Beaver.prototype.fall = function() {
 };
 
 
-/*  :
+/*  Beaver checkForItemGrab function. If beaver
+    (Hopper) collides with item, this function
+    is called:
 ************************************************/
 
 Beaver.prototype.checkForItemGrab = function(item) {
@@ -311,7 +319,9 @@ Beaver.prototype.checkForItemGrab = function(item) {
 };
 
 
-/*  :
+/*  Beaver checkForAttack function. If beaver
+    (Hopper) collides with enemy, this function
+    is called:
 ************************************************/
 
 Beaver.prototype.checkForAttack = function(item) {
@@ -326,13 +336,13 @@ Beaver.prototype.checkForAttack = function(item) {
 };
 
 
-/*  :
+/*  Create new beaver object:
 ************************************************/
 
 beaver = new Beaver(120, 300);
 
 
-/*  :
+/*  Item constructor:
 ************************************************/
 
 Item = function(x, y) {
@@ -342,7 +352,7 @@ Item = function(x, y) {
 };
 
 
-/*  :
+/*  Item draw function:
 ************************************************/
 
 Item.prototype.draw = function() {
@@ -350,7 +360,7 @@ Item.prototype.draw = function() {
 };
 
 
-/*  :
+/*  Enemy constructor function:
 ************************************************/
 
 Enemy = function(x, y) {
@@ -360,7 +370,7 @@ Enemy = function(x, y) {
 };
 
 
-/*  :
+/*  Enemy draw function:
 ************************************************/
 
 Enemy.prototype.draw = function() {
@@ -368,7 +378,9 @@ Enemy.prototype.draw = function() {
 };
 
 
-/*  :
+/*  Enemy value properties. This defines the
+    amount, height deviation and spacing
+    between enemies:
 ************************************************/
 
 enemyVal = {
@@ -378,7 +390,7 @@ enemyVal = {
 };
 
 
-/*  :
+/*  Push items to screen:
 ************************************************/
 
 for (i = 0; i < 100; i++) {
@@ -387,7 +399,7 @@ for (i = 0; i < 100; i++) {
 }
 
 
-/*  :
+/*  Push enemies to screen:
 ************************************************/
 
 for (i = 0; i < enemyVal.amount; i++) {
@@ -396,7 +408,7 @@ for (i = 0; i < enemyVal.amount; i++) {
 }
 
 
-/*  :
+/*  Constructor that creates menus:
 ************************************************/
 
 CreateMenu = function(o) {
@@ -433,7 +445,7 @@ CreateMenu = function(o) {
 };
 
 
-/*  :
+/*  Constructor that creates text:
 ************************************************/
 
 CreateText = function
@@ -452,7 +464,7 @@ CreateText = function
 };
 
 
-/*  :
+/*  Constructor that creates buttons:
 ************************************************/
 
 CreateButton = function(o) {
@@ -524,7 +536,7 @@ CreateButton = function(o) {
 };
 
 
-/*  :
+/*  Constructor that creates footer text:
 ************************************************/
 
 CreateFooter = function(o) {
@@ -534,7 +546,7 @@ CreateFooter = function(o) {
 };
 
 
-/*  :
+/*  Constructor that creates instructions:
 ************************************************/
 
 CreateInstructions = function(o) {
@@ -569,7 +581,7 @@ CreateInstructions = function(o) {
 /*  :
 ************************************************/
 
-var levelConditions = function(o) {
+levelConditions = function(o) {
         var scoreNeeded, gameDifficulty,
             gameUserProgress;
         
@@ -596,7 +608,7 @@ var levelConditions = function(o) {
     };
 
 
-/*  :
+/*  Function to load screen 1:
 ************************************************/
 
 screen1 = function() {
@@ -646,10 +658,10 @@ screen1 = function() {
 };
 
 
-/*  :
+/*  Function to load screen 2 instructions:
 ************************************************/
 
-var screen2Instructions = function() {
+screen2Instructions = function() {
     level = 1;
 
     if(!instructionStatus.screen2) {
@@ -674,7 +686,7 @@ var screen2Instructions = function() {
 };
 
 
-/*  :
+/*  Function to load screen 2:
 ************************************************/
 
 screen2 = function() {
@@ -779,7 +791,7 @@ screen2 = function() {
 soundPlayed = false;
 
 
-/*  :
+/*  Function to load screen 3:
 ************************************************/
 
 screen3 = function() {
@@ -827,7 +839,7 @@ screen3 = function() {
 };
 
 
-/*  :
+/*  Function to load screen 4 instructions:
 ************************************************/
 
 var screen4Instructions = function() {
@@ -854,7 +866,7 @@ var screen4Instructions = function() {
 };
 
 
-/*  :
+/*  Function to load screen 4:
 ************************************************/
 
 screen4 = function() {
@@ -933,7 +945,7 @@ screen4 = function() {
 };
 
 
-/*  :
+/*  Function to load screen 5:
 ************************************************/
 
 var screen5 = function() {
@@ -993,7 +1005,7 @@ creditsFormat = {
 };
 
 
-/*  :
+/*  Function to load complete game screen:
 ************************************************/
 
 gameCompleteScreen = function() {
