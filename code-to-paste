@@ -61,6 +61,8 @@ var app,
     screen2Instructions,
     screen3,
     screen4,
+    screen4Instructions,
+    screen5,
     scrollX,
     soundPlayed,
     SOUNDS,
@@ -110,7 +112,8 @@ app = {
 items = []; enemies = [];
 
 
-/*  :
+/*  This object keeps tab on which instructions
+    have been displayed:
 ************************************************/
 
 instructionStatus = {
@@ -121,7 +124,8 @@ instructionStatus = {
 };
 
 
-/*  :
+/*  CONFIG object contains properties related to
+    level settings and instructions:
 ************************************************/
 
 CONFIG = {
@@ -254,7 +258,9 @@ UI_STYLES = {
 };
 
 
-/*  :
+/*  These variables keep tabs on the level,
+    the amount a character has scrolled
+    (horizontally) and their speed:
 ************************************************/
 
 level = 0;
@@ -578,7 +584,7 @@ CreateInstructions = function(o) {
 };
 
 
-/*  :
+/*  Function to apply certain level settings:
 ************************************************/
 
 levelConditions = function(o) {
@@ -785,7 +791,9 @@ screen2 = function() {
 };
 
 
-/*  :
+/*  Keep tabs on whether a sound has been played
+    (in this version it checks that
+     sound that ends the level has been played):
 ************************************************/
 
 soundPlayed = false;
@@ -842,7 +850,7 @@ screen3 = function() {
 /*  Function to load screen 4 instructions:
 ************************************************/
 
-var screen4Instructions = function() {
+screen4Instructions = function() {
     level = 2;
     if(!instructionStatus.screen4) {
         app.levelCountdown = app.COUNTDOWNVAL;
@@ -948,7 +956,7 @@ screen4 = function() {
 /*  Function to load screen 5:
 ************************************************/
 
-var screen5 = function() {
+screen5 = function() {
     if (!soundPlayed) {
         playSound(getSound(SOUNDS.END_LEVEL));
         soundPlayed = true;
@@ -994,7 +1002,8 @@ var screen5 = function() {
 };
 
 
-/*  :
+/*  creditsFormat defines the style and
+    dimensions of credits screen:
 ************************************************/
 
 creditsFormat = {
@@ -1035,9 +1044,7 @@ gameCompleteScreen = function() {
     fill(255, 0, 0);
     text(TEXT_LABELS.CONGRATULATIONS, width/width/2, 100, width, 100);
 
-
-
-
+    
     // FIX THIS
 
     image(getImage("creatures/Hopper-Cool"), 155, 200, 100, 100);
@@ -1056,14 +1063,10 @@ gameCompleteScreen = function() {
     }
 };
 
-
-/*  :
-************************************************/
-
 gap = 100;
 
 
-/*  :
+/*  creditsScreen animates rolling credit text:
 ************************************************/
 
 creditsScreen = function() {
@@ -1073,7 +1076,7 @@ creditsScreen = function() {
         app.userProgress.screen = 1;
     }
 
-    // :
+    // Set a dark background with red text:
 
     background(0, 0, 0);
     fill(255, 0, 0);
@@ -1085,7 +1088,7 @@ creditsScreen = function() {
     textAlign(CENTER);
     text(CREDITS.END_CREDIT_STARRING, 0, creditsFormat.posY + creditsFormat.gapL * 2, width, height);
 
-    // :
+    // Center the text:
 
     for (var i = 3, j = 0 ; j < CREDITS.END_CREDITS.length; j += 1, i += 0.5) {
         textAlign(CENTER);
@@ -1096,7 +1099,8 @@ creditsScreen = function() {
 };
 
 
-/*  :
+/*  Determine which interstitial to load on 
+    screen:
 ************************************************/
 
 interstitial = function(num) {
@@ -1111,7 +1115,10 @@ interstitial = function(num) {
 };
 
 
-/*  :
+/*  enableBeaver determines whether the beaver
+    (Hoppy) can be played with. He is disabled
+    and disappears on instruction and 
+    interstitial screens, for example:
 ************************************************/
 
 enableBeaver = function() {
@@ -1137,7 +1144,7 @@ enableBeaver = function() {
 };
 
 
-/*  :
+/*  disableMouse function:
 ************************************************/
 
 disableMouse = function() {
@@ -1146,7 +1153,8 @@ disableMouse = function() {
 };
 
 
-/*  :
+/*  updateClock function provides new values
+    for timers used throughout the game:
 ************************************************/
 
 updateClock = function() {
@@ -1156,7 +1164,7 @@ updateClock = function() {
 };
 
 
-/*  :
+/*  Draw function loops throughout the game:
 ************************************************/
 
 draw = function() {
